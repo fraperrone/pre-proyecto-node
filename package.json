@@ -9,5 +9,8 @@
   },
   "type": "module",
   "author": "Franco Perrone Rey",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "node-fetch": "^3.3.2"
+  }
 }
