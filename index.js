@@ -9,6 +9,11 @@ import fetch from 'node-fetch'
 const method = process.argv[2]
 const resource = process.argv[3]
 
+// hacemos para title price y category
+const title = process.argv[4]
+const price = process.argv[5]
+const category = process.argv[6]
+
 async function main() {
   // hacemos primero el metodo GET
   if (method === 'GET' && resource === 'products') {
@@ -30,6 +35,27 @@ async function main() {
         console.error(error)
       }
     }
+    // ahora hacemos el metodo POST para crear un nuevo producto con title price y category
+    else if (method === 'POST' && resource === 'products') {
+      try {
+        const response = await fetch(`https://fakestoreapi.com/${resource}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            title: title,
+            price: price,
+            category: category
+          })
+        })
+        const data = await response.json()
+        console.log(data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
+
 
 }
 
