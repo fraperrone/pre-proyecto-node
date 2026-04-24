@@ -55,8 +55,18 @@ async function main() {
         console.error(error)
       }
     }
-
-
+    // hacemos funcion eliminar producto por id
+    else if (method === 'DELETE' && resource.startsWith('products/')) {
+      try {
+        const response = await fetch(`https://fakestoreapi.com/${resource}`, {
+          method: 'DELETE'
+        })
+        const data = await response.json()
+        console.log(data)
+      } catch (error) {
+        console.error(error)
+      }
+    }
 }
 
 main()
