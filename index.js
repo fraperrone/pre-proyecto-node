@@ -20,53 +20,65 @@ async function main() {
     try {
       const response = await fetch(`https://fakestoreapi.com/${resource}`)
       const data = await response.json()
-      console.log(data)
+      //formateamos data para que se vea mejor en consola con destructuring y spread operator
+      const formattedData = data.map(product => {
+        const { id, title, price, category } = product
+        return { id, title, price, category }
+      })
+      // ahora imprimimos el resultado formateado con lo que necesitamos templete string
+      console.log(`Productos:\n${formattedData.map(product => `ID: ${product.id}, Title: ${product.title}, Price: ${product.price}, Category: ${product.category}`).join('\n')}`)
     } catch (error) {
       console.error(error)
     }
   }
   // ahora por producto especifco  
-    else if (method === 'GET' && resource.startsWith('products/')) {
-      try {
-        const response = await fetch(`https://fakestoreapi.com/${resource}`)
-        const data = await response.json()
-        console.log(data)
-      } catch (error) {
-        console.error(error)
-      }
+  else if (method === 'GET' && resource.startsWith('products/')) {
+    try {
+      const response = await fetch(`https://fakestoreapi.com/${resource}`)
+      const data = await response.json()
+      // formateamos data para que se vea mejor en consola con destructuring
+      const { id, title, price, category } = data
+      console.log(`Producto:\nID: ${id}, Title: ${title}, Price: ${price}, Category: ${category}`)
+    } catch (error) {
+      console.error(error)
     }
-    // ahora hacemos el metodo POST para crear un nuevo producto con title price y category
-    else if (method === 'POST' && resource === 'products') {
-      try {
-        const response = await fetch(`https://fakestoreapi.com/${resource}`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            title: title,
-            price: price,
-            category: category
-          })
+  }
+  // ahora hacemos el metodo POST para crear un nuevo producto con title price y category
+  else if (method === 'POST' && resource === 'products') {
+    try {
+      const response = await fetch(`https://fakestoreapi.com/${resource}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          title: title,
+          price: price,
+          category: category
         })
-        const data = await response.json()
-        console.log(data)
-      } catch (error) {
-        console.error(error)
-      }
+      })
+      const data = await response.json()
+      // formateamos data para que se vea mejor en consola con destructuring
+      console.log(`Producto creado:\nID: ${data.id}, Title: ${data.title}, Price: ${data.price}, Category: ${data.category}`)
+
+    } catch (error) {
+      console.error(error)
     }
-    // hacemos funcion eliminar producto por id
-    else if (method === 'DELETE' && resource.startsWith('products/')) {
-      try {
-        const response = await fetch(`https://fakestoreapi.com/${resource}`, {
-          method: 'DELETE'
-        })
-        const data = await response.json()
-        console.log(data)
-      } catch (error) {
-        console.error(error)
-      }
+  }
+  // hacemos funcion eliminar producto por id
+  else if (method === 'DELETE' && resource.startsWith('products/')) {
+    try {
+      const response = await fetch(`https://fakestoreapi.com/${resource}`, {
+        method: 'DELETE'
+      })
+      const data = await response.json()
+      // formateamos data para que se vea mejor en consola con destructuring
+      const { id, title, price, category } = data
+      console.log(`Producto eliminado:\nID: ${id}, Title: ${title}, Price: ${price}, Category: ${category}`)
+    } catch (error) {
+      console.error(error)
     }
+  }
 }
 
 main()
